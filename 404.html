@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Page non trouvée - Tom Nowak</title>
+    <!-- Tu peux réutiliser les mêmes liens CSS que dans home.html -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/fontsource/fonts/outfit@latest/latin-400-normal.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/fontsource/fonts/inter@latest/latin-400-normal.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/css/style.css"> <!-- Si tu as séparé le style -->
+    <script>
+     tailwind.config = { /* ... ta config ... */ } // Si tu n'as pas de build, inclure la config ici aussi
+    </script>
+</head>
+<body class="bg-dark text-slate-300 flex items-center justify-center min-h-screen">
+    <div class="text-center">
+        <h1 class="text-6xl font-heading font-bold text-white mb-4">404</h1>
+        <p class="text-2xl text-slate-400 mb-8">Oops! La page que vous cherchez n'existe pas.</p>
+        <a href="/" class="px-6 py-3 bg-primary text-white rounded-full hover:bg-indigo-600 transition-colors">
+            Retour à l'accueil
+        </a>
+    </div>
+</body>
+</html>

@@ -1,0 +1,135 @@
+/* Custom Styles for specific effects */
+.glass-nav {
+  background: rgba(15, 23, 42, 0.8);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+.gradient-text {
+  background: linear-gradient(to right, #6366f1, #ec4899);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.hero-bg {
+  background-image: radial-gradient(circle at top right, rgba(99, 102, 241, 0.15), transparent 40%),
+                    radial-gradient(circle at bottom left, rgba(236, 72, 153, 0.15), transparent 40%);
+}
+/* Micro-interactions pour les cartes */
+.card-hover {
+  transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+}
+.card-hover:hover {
+  transform: translateY(-5px) scale(1.02); /* Ajout de scale */
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  border-color: #6366f1; /* Changement de couleur de bordure - utilise la variable Tailwind si possible */
+}
+/* Micro-interactions pour les boutons */
+button, a.px-8.py-4.bg-white, a.px-8.py-4.border, a.px-6.py-3 {
+  transition: all 0.2s ease;
+}
+button:hover, a.px-8.py-4.bg-white:hover, a.px-8.py-4.border:hover, a.px-6.py-3:hover {
+  transform: scale(1.05);
+}
+/* Hide scrollbar for clean UI */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #0f172a;
+}
+::-webkit-scrollbar-thumb {
+  background: #334155;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #475569;
+}
+/* Style spécifique pour l'activité GitHub */
+.github-activity-item {
+  padding: 1rem;
+  border-bottom: 1px solid #334155;
+}
+.github-activity-item:last-child {
+  border-bottom: none;
+}
+.github-activity-type {
+  display: inline-block;
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.25rem;
+  font-size: 0.75rem;
+  font-weight: bold;
+  margin-bottom: 0.25rem;
+}
+.github-commit { background-color: #3b82f6; color: white; } /* Bleu pour commit */
+.github-issue { background-color: #10b981; color: white; } /* Vert pour issue */
+.github-pull { background-color: #8b5cf6; color: white; } /* Violet pour pull request */
+.github-other { background-color: #6b7280; color: white; } /* Gris pour autres */
+
+/* --- STYLES POUR LE PARALLAXE --- */
+.parallax-container {
+  position: relative;
+  overflow: hidden;
+}
+.parallax-layer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+.parallax-content {
+  position: relative;
+  z-index: 10; /* Assure que le contenu principal est au-dessus des couches parallax */
+}
+/* --- FIN DES STYLES POUR LE PARALLAXE --- */
+
+/* --- LOADER --- */
+#loader {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 4px;
+  background: linear-gradient(to right, #6366f1, #ec4899); /* Utilise les couleurs primaires */
+  transform-origin: left;
+  transform: scaleX(0);
+  transition: transform 0.3s ease;
+  z-index: 1000;
+}
+body.loading #loader {
+  animation: loading 1.5s infinite alternate;
+}
+@keyframes loading {
+  0% { transform: scaleX(0); }
+  100% { transform: scaleX(0.7); } /* Rempli 70% */
+}
+/* --- FIN DU LOADER --- */
+
+/* --- MODE SOMBRE AUTOMATIQUE --- */
+/* Les couleurs sont déjà définies dans Tailwind, donc on adapte le fond de body */
+@media (prefers-color-scheme: dark) {
+  body {
+    /* Le body a déjà bg-dark (#0f172a) qui convient au mode sombre */
+    /* On peut éventuellement ajuster d'autres éléments ici si besoin */
+  }
+  /* Exemple : Ajustement si un fond clair est présent ailleurs */
+  .bg-light {
+    background-color: #1e293b; /* Couleur sombre pour remplacer bg-light */
+    color: #f8fafc; /* Assure un bon contraste */
+  }
+}
+/* --- FIN MODE SOMBRE AUTOMATIQUE --- */
+
+/* --- FADE IN AU CHARGEMENT --- */
+.fade-in-element {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+.fade-in-element.appear {
+  opacity: 1;
+  transform: translateY(0);
+}

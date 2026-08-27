@@ -1,0 +1,60 @@
+name: CI/CD Pipeline
+
+# Déclencheur : à chaque push ou pull request sur la branche main
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  lint-and-validate:
+    runs-on: ubuntu-latest # Utilise un runner Ubuntu
+
+    steps:
+    # 1. Checkout du code source
+    - name: Checkout code
+      uses: actions/checkout@v4 # Utilise la dernière version de l'action checkout
+
+    # 2. Setup Node.js (nécessaire pour exécuter les outils JS comme Prettier, ESLint, html-validate)
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20' # Spécifie la version de Node.js à utiliser
+
+    # 3. Installation des dépendances (devDependencies) si tu as un package.json
+    # Si tu n'as pas de package.json, cette étape échouera silencieusement ou tu peux la commenter/supprimer.
+    # Pour cet exemple simple sans package.json, on va juste installer les outils nécessaires directement.
+    - name: Install Linters
+      run: |
+        npm install --global prettier html-validate # Installe Prettier et html-validate globalement
+
+    # 4. Exécution du linter/formatteur (Prettier) sur les fichiers HTML, JS, CSS
+    - name: Run Prettier Check
+      run: |
+        prettier --check "*.html" "**/*.html" # Vérifie le formatage des fichiers HTML
+        # Ajoute d'autres extensions si nécessaire (ex: --check "*.js" "*.css")
+
+    # 5. Exécution d'un validateur HTML basique
+    - name: Validate HTML
+      run: |
+        html-validate "*.html" "**/*.html" --formatter unix
+        # Note : html-validate peut nécessiter une configuration (htmlvalidate.json) pour ignorer certains avertissements ou définir des règles strictes.
+        # Si tu n'as qu'un seul fichier home.html à la racine, tu peux simplifier par : html-validate home.html
+
+  deploy: # Job de déploiement (exemple avec Vercel, mais peut être adapté à Netlify, Cloudflare Pages, etc.)
+    needs: lint-and-validate # Ne déploie que si le job lint-and-validate réussit
+    runs-on: ubuntu-latest
+    # Ici, tu définirais les étapes pour déployer ton site statique.
+    # Par exemple, pour Vercel :
+    # - name: Deploy to Vercel
+    #   run: |
+    #     # Tu aurais besoin d'installer l'outil CLI de Vercel (vercel-cli) et de configurer des secrets pour ton token API.
+    #     # vercel --token ${{ secrets.VERCEL_TOKEN }} --prod
+    # Pour Netlify, Cloudflare Pages, c'est similaire via leurs outils CLI ou leurs intégrations GitHub.
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Notify Deployment Status (Example Placeholder)
+        run: echo "Deployment would happen here after successful linting."
+        # Remplace ce step par les commandes réelles de déploiement adaptées à ton hébergeur.

@@ -1,0 +1,22 @@
+{
+  "name": "tomnowak_website",
+  "version": "1.0.0",
+  "type": "module",
+  "dependencies": {
+    "express": "^4.21.2"  // ou la version installée
+  },
+  "devDependencies": {
+    "eslint": "^10.8.1",
+    "prettier": "^3.9.6",
+    "stylelint": "^17.14.1",
+    "html-validate": "^9.0.0"
+  },
+  "scripts": {
+    "start": "http-server -o",
+    "validate-html": "html-validate home.html",
+    "lint-css": "stylelint css/**/*.css",
+    "lint-js": "eslint . --ext .js",
+    "format": "prettier --write .",
+    "test": "npm run validate-html && npm run lint-css && npm run lint-js"
+  }
+}

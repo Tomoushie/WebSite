@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="fr" class="scroll-smooth">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- Meta Tags SEO -->
+<link rel="icon" href="/favicon.ico" type="image/x-icon">
+<!-- Lien vers le manifeste PWA -->
+<link rel="manifest" href="/manifest.json">
+<meta name="description" content="Portfolio de Tom Nowak, développeur indépendant spécialisé dans les jeux, logiciels et l'IA. Découvrez mes projets en cours.">
+<meta name="keywords" content="Tom Nowak, développeur, jeux, logiciels, IA, intelligence artificielle, portfolio, projet">
+<meta name="author" content="Tom Nowak">
+<!-- Content Security Policy (CSP) - Désactivée pour le développement local -->
+<!-- <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.tailwindcss.com https://unpkg.com https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://unpkg.com; img-src 'self' data: https:; font-src 'self' https://cdn.jsdelivr.net;"> -->
+<title>Tom Nowak | Développeur</title>
+
+<!-- *** OPTIMISATION PERFORMANCE : Préchargement des polices (via CSS custom) *** -->
+<!-- On suppose que les polices sont chargées via @font-face ou via un CDN CSS spécifique -->
+<!-- <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" as="style"> -->
+
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com"></script>
+<!-- Fontsource Fonts (Outfit & Inter) -->
+<link href="https://cdn.jsdelivr.net/fontsource/fonts/outfit@latest/latin-400-normal.min.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/fontsource/fonts/outfit@latest/latin-700-normal.min.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/fontsource/fonts/inter@latest/latin-400-normal.min.css" rel="stylesheet">
+<!-- FontAwesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<!-- AOS Animation Library -->
+<link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+<!-- Feuille de style personnalisée -->
+<link rel="stylesheet" href="/css/style.css">
+<script>
+// IMPORTANT : Le CSP empêchera ceci si inline est bloqué. Déplacer dans un fichier JS externe est préférable.
+tailwind.config = {
+  theme: {
+    extend: {
+      fontFamily: {
+        sans: ['Inter', 'sans-serif'],
+        heading: ['Outfit', 'sans-serif'],
+      },
+      colors: {
+        primary: '#6366f1', // Indigo 500
+        secondary: '#ec4899', // Pink 500
+        dark: '#0f172a', // Slate 900
+        light: '#f8fafc', // Slate 50
+      }
+    }
+  }
+}
+</script>
+</head>
+<body class="bg-dark text-slate-300 font-sans antialiased overflow-x-hidden selection:bg-primary selection:text-white loading"> <!-- Ajout de la classe 'loading' -->
+
+  <!-- Loader -->
+  <div id="loader"></div>
+
+  <!-- *** RGPD : Bandeau Cookie *** -->
+  <div id="cookie-banner" class="fixed bottom-0 left-0 right-0 bg-slate-800 text-white p-4 z-50 hidden">
+    <div class="container mx-auto flex justify-between items-center">
+      <p class="text-sm">Ce site utilise des cookies pour améliorer votre expérience. Consultez notre <a href="/privacy-policy.html" class="text-primary underline">politique de confidentialité</a>.</p>
+      <div>
+        <button id="accept-cookies" class="px-4 py-2 bg-primary text-white rounded mr-2">Accepter</button>
+        <button id="decline-cookies" class="px-4 py-2 bg-slate-700 text-white rounded">Refuser</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Navigation -->
+  <nav id="navbar" class="fixed w-full z-50 transition-all duration-300 py-4 px-6 md:px-12 glass-nav">
+    <div class="max-w-7xl mx-auto flex justify-between items-center">
+      <a href="#home" class="text-2xl font-heading font-bold text-white tracking-tight">
+        Tom Nowak<span class="text-primary">.</span>
+      </a>
+      <!-- Desktop Menu -->
+      <div class="hidden md:flex space-x-8 items-center">
+        <a href="#about" class="hover:text-primary transition-colors text-sm uppercase tracking-wider">À Propos</a>
+        <a href="#projects" class="hover:text-primary transition-colors text-sm uppercase tracking-wider">Projets</a>
+        <a href="#news" class="hover:text-primary transition-colors text-sm uppercase tracking-wider">Actualité</a>
+        <a href="#contact" class="hover:text-primary transition-colors text-sm uppercase tracking-wider">Contact</a>
+        <a href="#support" class="hover:text-primary transition-colors text-sm uppercase tracking-wider">Soutenir</a>
+        <!-- Lien GitHub externe -->
+        <a href="https://github.com/TOMNOWAK_GITHUB_USERNAME" target="_blank" rel="noopener noreferrer" class="px-4 py-2 border border-slate-600 text-white rounded-full hover:border-primary hover:text-primary transition-all text-sm">
+          <i class="fab fa-github mr-2"></i> GitHub
+        </a>
+      </div>
+      <!-- Mobile Menu Button -->
+      <button id="mobile-menu-btn" class="md:hidden text-white text-2xl focus:outline-none">
+        <i class="fa-solid fa-bars"></i>
+      </button>
+    </div>
+    <!-- Mobile Menu Overlay -->
+    <div id="mobile-menu" class="fixed inset-0 bg-dark z-40 transform translate-x-full transition-transform duration-300 flex flex-col justify-center items-center space-y-8 md:hidden">
+      <button id="close-menu-btn" class="absolute top-6 right-6 text-3xl text-white">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+      <a href="#home" class="text-2xl font-heading text-white mobile-link">Accueil</a>
+      <a href="#about" class="text-2xl font-heading text-white mobile-link">À Propos</a>
+      <a href="#projects" class="text-2xl font-heading text-white mobile-link">Projets</a>
+      <a href="#news" class="text-2xl font-heading text-white mobile-link">Actualité</a>
+      <a href="#contact" class="text-2xl font-heading text-white mobile-link">Contact</a>
+      <a href="#support" class="text-2xl font-heading text-white mobile-link">Soutenir</a>
+      <a href="https://github.com/TOMNOWAK_GITHUB_USERNAME" target="_blank" rel="noopener noreferrer" class="text-2xl font-heading text-white mobile-link flex items-center"><i class="fab fa-github mr-2"></i> GitHub</a>
+    </div>
+  </nav>
+
+  <!-- Page d'Accueil avec Parallaxe -->
+  <section id="home" class="relative min-h-screen flex items-center justify-center pt-20 overflow-hidden parallax-container fade-in-element">
+    <!-- Couches Parallaxe -->
+    <!-- *** OPTIMISATION PERFORMANCE : Lazy-loading pour les images de fond (simulées via IMG invisibles ou placeholders si possible) *** -->
+    <!-- Pour les placeholders actuels en CSS background-image, le lazy-load natif ne s'applique pas directement. -->
+    <!-- On peut simuler avec des <img> invisibles ou utiliser une bibliothèque JS pour le lazy-load de background. -->
+    <!-- Pour l'instant, on garde le CSS background-image, mais on peut imaginer des <img> avec loading="lazy" si on change la structure. -->
+    <!-- Exemple de structure alternative avec <img> invisible (optionnel, complexifie le CSS) -->
+    <!-- <img src="https://placehold.co/1920x1080/0f172a/1e293b?text=Background+Layer+1" alt="" class="absolute inset-0 w-full h-full object-cover opacity-0" loading="lazy"> -->
+    <div class="parallax-layer" style="background-image: url('https://placehold.co/1920x1080/0f172a/1e293b?text=Background+Layer+1'); transform: translateZ(-100px) scale(2);"></div>
+    <div class="parallax-layer" style="background-image: url('https://placehold.co/1920x1080/1e293b/334155?text=Background+Layer+2'); transform: translateZ(-50px) scale(1.5);"></div>
+    <!-- Contenu principal -->
+    <div class="container mx-auto px-6 parallax-content text-center z-10">
+      <div data-aos="fade-up" data-aos-duration="1000">
+        <span class="inline-block py-1 px-3 rounded-full bg-slate-800 border border-slate-700 text-primary text-xs font-bold tracking-widest uppercase mb-6">
+          Développeur Indépendant
+        </span>
+        <h1 class="text-5xl md:text-7xl lg:text-8xl font-heading font-bold text-white leading-tight mb-6">
+          Bienvenue sur mon <br>
+          <span class="gradient-text">Portfolio</span>
+        </h1>
+        <p class="text-lg md:text-xl text-slate-400 max-w-2xl mx-auto mb-10 leading-relaxed">
+          Découvrez mes projets en cours de développement : jeux, logiciels et autres aventures numériques.
+        </p>
+        <div class="flex flex-col sm:flex-row justify-center gap-4">
+          <a href="#projects" class="px-8 py-4 bg-white text-dark font-bold rounded-full hover:bg-gray-100 transition-all shadow-[0_0_20px_rgba(255,255,255,0.3)]">
+            Voir mes projets
+          </a>
+          <a href="#news" class="px-8 py-4 border border-slate-600 text-white font-bold rounded-full hover:border-primary hover:text-primary transition-all">
+            Suivre mon actualité
+          </a>
+        </div>
+      </div>
+    </div>
+    <!-- Scroll Indicator -->
+    <div class="absolute bottom-10 left-1/2 transform -translate-x-1/2 animate-bounce text-slate-500 z-10">
+      <i class="fa-solid fa-chevron-down text-2xl"></i>
+    </div>
+  </section>
+
+  <!-- Section À Propos avec Parallaxe -->
+  <section id="about" class="py-24 bg-slate-900 relative overflow-hidden parallax-container fade-in-element">
+    <!-- Couches Parallaxe -->
+    <div class="parallax-layer" style="background-image: url('https://placehold.co/1920x1080/0f172a/1e293b?text=About+BG+1'); transform: translateZ(-100px) scale(2);"></div>
+    <div class="parallax-layer" style="background-image: url('https://placehold.co/1920x1080/1e293b/334155?text=About+BG+2'); transform: translateZ(-50px) scale(1.5);"></div>
+    <!-- Contenu principal -->
+    <div class="container mx-auto px-6 parallax-content">
+      <div class="text-center mb-16" data-aos="fade-up">
+        <h2 class="text-3xl md:text-5xl font-heading font-bold text-white mb-4">À Propos de Moi</h2>
+        <p class="text-slate-400 max-w-2xl mx-auto">Passionné par la création numérique et l'intelligence artificielle.</p>
+        <div class="w-20 h-1 bg-primary mx-auto rounded-full mt-4"></div>
+      </div>
+      <div class="max-w-3xl mx-auto text-center text-slate-300" data-aos="fade-up" data-aos-delay="100">
+        <p class="mb-4">
+          Je suis Tom Nowak, développeur indépendant spécialisé dans la création de jeux, de logiciels innovants et d'implémentations d'intelligence artificielle avancées. Mon parcours me permet d'allier créativité, rigueur technique et passion pour les défis complexes.
+        </p>
+        <p>
+          Mon objectif est de concevoir des expériences interactives immersives et des systèmes intelligents qui repoussent les limites du possible.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Page Projets -->
+  <section id="projects" class="py-24 bg-dark fade-in-element">
+    <div class="container mx-auto px-6">
+      <div class="text-center mb-16" data-aos="fade-up"> <!-- Animation pour le titre -->
+        <h2 class="text-3xl md:text-5xl font-heading font-bold text-white mb-4">Mes Projets en Cours</h2>
+        <div class="w-20 h-1 bg-primary mx-auto rounded-full"></div>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <!-- Exemple de projet -->
+        <div class="bg-slate-900 p-6 rounded-2xl border border-slate-800 card-hover transition-all duration-300" data-aos="fade-up" data-aos-delay="100"> <!-- Animation pour la carte -->
+          <div class="w-12 h-12 bg-indigo-900/50 rounded-lg flex items-center justify-center mb-4">
+            <i class="fas fa-gamepad text-xl text-primary"></i>
+          </div>
+          <h3 class="text-xl font-bold text-white mb-2">Projet Jeu Alpha</h3>
+          <p class="text-slate-400 mb-4">Un jeu d'aventure en monde ouvert en développement.</p>
+          <div class="flex justify-between items-center">
+            <span class="text-xs text-slate-500">Status: En cours</span>
+            <a href="https://github.com/TOMNOWAK_GITHUB_USERNAME/projet-jeu-alpha" target="_blank" rel="noopener noreferrer" class="text-sm text-primary hover:underline">Voir sur GitHub</a>
+          </div>
+        </div>
+        <!-- Exemple de projet -->
+        <div class="bg-slate-900 p-6 rounded-2xl border border-slate-800 card-hover transition-all duration-300" data-aos="fade-up" data-aos-delay="200"> <!-- Animation pour la carte -->
+          <div class="w-12 h-12 bg-pink-900/50 rounded-lg flex items-center justify-center mb-4">
+            <i class="fas fa-cogs text-xl text-secondary"></i>
+          </div>
+          <h3 class="text-xl font-bold text-white mb-2">Outil de Simulation IA</h3>
+          <p class="text-slate-400 mb-4">Logiciel de création et test de comportements IA complexes.</p>
+          <div class="flex justify-between items-center">
+            <span class="text-xs text-slate-500">Status: Alpha</span>
+            <a href="https://github.com/TOMNOWAK_GITHUB_USERNAME/outil-ia-sim" target="_blank" rel="noopener noreferrer" class="text-sm text-primary hover:underline">Voir sur GitHub</a>
+          </div>
+        </div>
+        <!-- Exemple de projet -->
+        <div class="bg-slate-900 p-6 rounded-2xl border border-slate-800 card-hover transition-all duration-300" data-aos="fade-up" data-aos-delay="300"> <!-- Animation pour la carte -->
+          <div class="w-12 h-12 bg-teal-900/50 rounded-lg flex items-center justify-center mb-4">
+            <i class="fas fa-robot text-xl text-teal-400"></i>
+          </div>
+          <h3 class="text-xl font-bold text-white mb-2">Framework de Comportement</h3>
+          <p class="text-slate-400 mb-4">Un framework pour implémenter facilement des IA avancées.</p>
+          <div class="flex justify-between items-center">
+            <span class="text-xs text-slate-500">Status: Concept</span>
+            <a href="https://github.com/TOMNOWAK_GITHUB_USERNAME/framework-behavior" target="_blank" rel="noopener noreferrer" class="text-sm text-primary hover:underline">Voir sur GitHub</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Page Actualité (GitHub) -->
+  <section id="news" class="py-24 bg-slate-900 fade-in-element">
+    <div class="container mx-auto px-6">
+      <div class="text-center mb-16" data-aos="fade-up"> <!-- Animation pour le titre -->
+        <h2 class="text-3xl md:text-5xl font-heading font-bold text-white mb-4">Mon Actualité GitHub</h2>
+        <p class="text-slate-400 max-w-2xl mx-auto">Dernières activités sur mes projets : commits, commentaires, etc.</p>
+        <div class="w-20 h-1 bg-primary mx-auto rounded-full mt-4"></div>
+      </div>
+      <div class="max-w-4xl mx-auto bg-slate-800 rounded-xl border border-slate-700 overflow-hidden" data-aos="fade-in"> <!-- Animation pour le conteneur -->
+        <!-- Conteneur pour les activités GitHub -->
+        <div id="github-activity-feed" class="divide-y divide-slate-700">
+          <!-- Les activités seront insérées ici par le JS -->
+          <div class="text-center p-8 text-slate-500">
+            Chargement de l'activité GitHub...
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Page Contact -->
+  <section id="contact" class="py-24 bg-dark fade-in-element">
+    <div class="container mx-auto px-6">
+      <div class="text-center mb-16" data-aos="fade-up"> <!-- Animation pour le titre -->
+        <h2 class="text-3xl md:text-5xl font-heading font-bold text-white mb-4">Me Contacter</h2>
+        <p class="text-slate-400 max-w-2xl mx-auto">Pour toute collaboration, proposition ou question.</p>
+        <div class="w-20 h-1 bg-primary mx-auto rounded-full mt-4"></div>
+      </div>
+      <div class="max-w-2xl mx-auto bg-slate-900 p-8 md:p-10 rounded-3xl border border-slate-800 shadow-2xl" data-aos="fade-up" data-aos-delay="100"> <!-- Animation pour le formulaire -->
+        <form id="contactForm" class="space-y-6">
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div>
+              <label class="block text-sm font-medium text-slate-400 mb-2">Nom</label>
+              <input type="text" class="w-full bg-slate-800 border border-slate-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-colors" placeholder="Votre nom" required>
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-slate-400 mb-2">Email</label>
+              <input type="email" class="w-full bg-slate-800 border border-slate-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-colors" placeholder="votre@email.com" required pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$">
+            </div>
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-slate-400 mb-2">Sujet</label>
+            <input type="text" class="w-full bg-slate-800 border border-slate-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-colors" placeholder="Sujet de votre message" required>
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-slate-400 mb-2">Message</label>
+            <textarea rows="6" class="w-full bg-slate-800 border border-slate-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-colors" placeholder="Votre message..." required minlength="10"></textarea>
+          </div>
+          <button type="submit" class="w-full bg-gradient-to-r from-primary to-indigo-600 text-white font-bold py-4 rounded-lg hover:shadow-lg hover:shadow-indigo-500/40 transition-all transform hover:-translate-y-1">
+            Envoyer le message
+          </button>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- Page Soutenir -->
+  <section id="support" class="py-24 bg-slate-900 fade-in-element">
+    <div class="container mx-auto px-6">
+      <div class="text-center mb-16" data-aos="fade-up"> <!-- Animation pour le titre -->
+        <h2 class="text-3xl md:text-5xl font-heading font-bold text-white mb-4">Soutenir Mes Projets</h2>
+        <p class="text-slate-400 max-w-2xl mx-auto">Votre soutien permet de continuer à innover et à produire du contenu de qualité.</p>
+        <div class="w-20 h-1 bg-primary mx-auto rounded-full mt-4"></div>
+      </div>
+      <div class="max-w-3xl mx-auto bg-slate-800 p-8 rounded-2xl border border-slate-700" data-aos="fade-up" data-aos-delay="100"> <!-- Animation pour le bloc principal -->
+        <p class="text-slate-300 mb-6" data-aos="fade-right" data-aos-delay="200"> <!-- Animation pour le paragraphe -->
+          Développer des jeux, des logiciels et des outils innovants demande beaucoup de temps et d'efforts. Si vous appréciez mon travail et souhaitez contribuer à sa pérennité, vous pouvez me soutenir financièrement via les plateformes ci-dessous. Chaque contribution, aussi petite soit-elle, est un encouragement précieux !
+        </p>
+        <div class="flex flex-wrap justify-center gap-4" data-aos="fade-left" data-aos-delay="300"> <!-- Animation pour les boutons -->
+          <!-- Exemples de boutons de soutien -->
+          <a href="https://github.com/sponsors/TOMNOWAK_GITHUB_USERNAME" target="_blank" rel="noopener noreferrer" class="px-6 py-3 bg-[#24292e] text-white rounded-lg font-medium hover:bg-[#2c3136] transition-colors flex items-center">
+            <i class="fab fa-github mr-2"></i> GitHub Sponsors
+          </a>
+          <a href="https://www.buymeacoffee.com/TOMNOWAK_COFFEE_USERNAME" target="_blank" rel="noopener noreferrer" class="px-6 py-3 bg-[#ffdd00] text-black rounded-lg font-medium hover:bg-[#ffc800] transition-colors flex items-center">
+            <i class="fas fa-coffee mr-2"></i> Buy Me a Coffee
+          </a>
+          <a href="https://ko-fi.com/TOMNOWAK_KOFI_USERNAME" target="_blank" rel="noopener noreferrer" class="px-6 py-3 bg-[#ff5e5b] text-white rounded-lg font-medium hover:bg-[#ff4d4a] transition-colors flex items-center">
+            <i class="fas fa-mug-hot mr-2"></i> Ko-fi
+          </a>
+        </div>
+        <div class="mt-8 p-4 bg-slate-900 rounded-lg border border-slate-700" data-aos="zoom-in" data-aos-delay="400"> <!-- Animation pour la liste des projets -->
+          <h3 class="text-lg font-bold text-white mb-2">Projets à Soutenir</h3>
+          <ul class="list-disc pl-5 text-slate-400 space-y-1">
+            <li><a href="https://github.com/TOMNOWAK_GITHUB_USERNAME/projet-jeu-alpha" target="_blank" rel="noopener noreferrer" class="text-primary hover:underline">Projet Jeu Alpha</a></li>
+            <li><a href="https://github.com/TOMNOWAK_GITHUB_USERNAME/outil-ia-sim" target="_blank" rel="noopener noreferrer" class="text-primary hover:underline">Outil de Simulation IA</a></li>
+            <li><a href="https://github.com/TOMNOWAK_GITHUB_USERNAME/framework-behavior" target="_blank" rel="noopener noreferrer" class="text-primary hover:underline">Framework de Comportement</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="bg-slate-950 pt-16 pb-8 border-t border-slate-900 fade-in-element">
+    <div class="container mx-auto px-6">
+      <div class="flex flex-col md:flex-row justify-between items-center mb-12">
+        <a href="#home" class="text-3xl font-heading font-bold text-white tracking-tight mb-4 md:mb-0">
+          Tom Nowak<span class="text-primary">.</span>
+        </a>
+        <div class="flex space-x-6">
+          <!-- Ajouter des liens vers vos réseaux sociaux -->
+          <a href="https://twitter.com/TOMNOWAK_TWITTER_USERNAME" target="_blank" rel="noopener noreferrer" class="w-10 h-10 rounded-full bg-slate-900 flex items-center justify-center text-slate-400 hover:bg-primary hover:text-white transition-all">
+            <i class="fab fa-twitter"></i>
+          </a>
+          <a href="https://linkedin.com/in/TOMNOWAK_LINKEDIN_USERNAME" target="_blank" rel="noopener noreferrer" class="w-10 h-10 rounded-full bg-slate-900 flex items-center justify-center text-slate-400 hover:bg-blue-700 hover:text-white transition-all">
+            <i class="fab fa-linkedin-in"></i>
+          </a>
+        </div>
+      </div>
+      <div class="border-t border-slate-900 pt-8 flex flex-col md:flex-row justify-between items-center text-sm text-slate-500">
+        <p>&copy; 2026 Tom Nowak. Tous droits réservés.</p>
+        <div class="flex space-x-6 mt-4 md:mt-0">
+          <a href="/privacy-policy.html" class="hover:text-white transition-colors">Mentions Légales</a> <!-- Lien vers la politique de confidentialité -->
+          <a href="/privacy-policy.html" class="hover:text-white transition-colors">Confidentialité</a> <!-- Lien vers la politique de confidentialité -->
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+  <script>
+    // Script pour le bandeau de cookies
+    document.addEventListener('DOMContentLoaded', function() {
+        const consent = localStorage.getItem('cookies-consented');
+        const banner = document.getElementById('cookie-banner');
+        const acceptBtn = document.getElementById('accept-cookies');
+        const declineBtn = document.getElementById('decline-cookies');
+
+        if (!consent) {
+            banner.classList.remove('hidden');
+        }
+
+        acceptBtn.addEventListener('click', () => {
+            localStorage.setItem('cookies-consented', 'true');
+            banner.classList.add('hidden');
+        });
+
+        declineBtn.addEventListener('click', () => {
+            localStorage.setItem('cookies-consented', 'false');
+            banner.classList.add('hidden');
+        });
+    });
+
+    // Script pour le loader et le fade-in
+    document.addEventListener('DOMContentLoaded', function() {
+        // Désactiver la classe 'loading' après un court délai pour permettre l'animation du loader
+        setTimeout(() => {
+            document.body.classList.remove('loading');
+            // Cacher le loader après l'animation
+            const loader = document.getElementById('loader');
+            if (loader) {
+                loader.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
+                loader.style.transform = 'scaleX(1)';
+                loader.style.opacity = '0';
+                // Optionnel : supprimer le loader du DOM après disparition
+                setTimeout(() => {
+                    loader.remove();
+                }, 300);
+            }
+        }, 1500); // Durée de l'animation du loader
+
+        // Activer les éléments fade-in après le chargement initial
+        setTimeout(() => {
+            const fadeElements = document.querySelectorAll('.fade-in-element');
+            fadeElements.forEach(el => el.classList.add('appear'));
+        }, 1600); // Légèrement après la fin du loader
+    });
+
+    // Initialize Animate On Scroll with default settings
+    AOS.init({
+      once: true, // L'animation ne se déclenche qu'une seule fois
+      offset: 100, // Déclencher l'animation quand l'élément est à 100px du bas de l'écran
+      duration: 800, // Durée de l'animation en ms
+      easing: 'ease-out-cubic', // Type d'animation
+    });
+
+    // Mobile Menu Logic
+    const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+    const closeMenuBtn = document.getElementById('close-menu-btn');
+    const mobileMenu = document.getElementById('mobile-menu');
+    const mobileLinks = document.querySelectorAll('.mobile-link');
+    function toggleMenu() {
+      const isClosed = mobileMenu.classList.contains('translate-x-full');
+      if (isClosed) {
+        mobileMenu.classList.remove('translate-x-full');
+      } else {
+        mobileMenu.classList.add('translate-x-full');
+      }
+    }
+    mobileMenuBtn.addEventListener('click', toggleMenu);
+    closeMenuBtn.addEventListener('click', toggleMenu);
+    mobileLinks.forEach(link => link.addEventListener('click', toggleMenu));
+
+    // Navbar Scroll Effect
+    const navbar = document.getElementById('navbar');
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 50) {
+        navbar.classList.add('py-2');
+        navbar.classList.remove('py-4');
+      } else {
+        navbar.classList.add('py-4');
+        navbar.classList.remove('py-2');
+      }
+    });
+
+    // --- LOGIQUE SPECIFIQUE POUR LE PARALLAXE ---
+    document.addEventListener('DOMContentLoaded', () => {
+        const parallaxSections = document.querySelectorAll('.parallax-container');
+        const parallaxLayers = document.querySelectorAll('.parallax-layer');
+
+        window.addEventListener('scroll', () => {
+            const scrollPosition = window.pageYOffset;
+
+            parallaxLayers.forEach(layer => {
+                // Récupère la vitesse de défilement depuis la propriété transform (via scale)
+                // Ici, on extrait grossièrement un facteur de vitesse basé sur le scale
+                // Une méthode plus robuste serait de définir une vitesse spécifique via dataset ou classe
+                const transformStyle = getComputedStyle(layer).transform;
+                if (transformStyle && transformStyle !== 'none') {
+                    // Extrait le scale Z (ou X/Y s'ils sont uniformes) pour estimer la vitesse
+                    // Ceci est une approximation simple
+                    let speedFactor = 0.5; // Valeur par défaut
+                    if (transformStyle.includes('matrix3d')) {
+                        // matrix3d(a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p)
+                        // k est le facteur de perspective en Z, mais pour scaleZ, c'est plus complexe
+                        // Pour simplifier, on suppose que le scale est uniforme ou on utilise un facteur fixe basé sur l'échelle globale
+                        const values = transformStyle.match(/[\d\.\-]+/g);
+                        if (values.length >= 16) {
+                             // Prendre une moyenne ou une valeur indicative
+                             const scaleX = parseFloat(values[0]);
+                             const scaleY = parseFloat(values[5]);
+                             const scaleZ = parseFloat(values[10]); // Attention, peut être la perspective
+                             // Approximation : utiliser la moyenne des scales X/Y comme base pour la vitesse
+                             speedFactor = 1 - ((scaleX + scaleY) / 2);
+                        }
+                    } else if (transformStyle.includes('matrix')) {
+                         // matrix(a, b, c, d, e, f)
+                         // Pas de Z dans matrix 2D, donc on ignore la profondeur ici
+                         // On pourrait fixer des valeurs selon la classe
+                         if (layer.style.transform.includes('scale(2)')) {
+                             speedFactor = 0.25; // Plus lent pour le plus éloigné
+                         } else if (layer.style.transform.includes('scale(1.5)')) {
+                             speedFactor = 0.5; // Moyen
+                         }
+                    }
+
+                    // Calcule le déplacement en Y en fonction de la vitesse
+                    const yPos = -(scrollPosition * speedFactor);
+                    layer.style.transform = `translateY(${yPos}px)` + transformStyle.split('translateY')[1]; // Réapplique la transformation initiale + le déplacement
+                }
+            });
+        });
+    });
+    // --- FIN DE LA LOGIQUE POUR LE PARALLAXE ---
+
+    // --- LOGIQUE SPECIFIQUE POUR L'ACTUALITE GITHUB ---
+    const activityFeedElement = document.getElementById('github-activity-feed');
+
+    // Fonction pour charger les activités GitHub
+    async function loadGitHubActivity() {
+        try {
+            // ATTENTION : Cette requête ne fonctionnera PAS directement sans backend.
+            // Elle est là pour illustrer la structure attendue.
+            // Le backend devra récupérer les données via l'API GitHub avec ton token.
+            // Exemple de requête backend (à remplacer par ton endpoint) :
+            // const response = await fetch('/api/github-activity');
+            // const data = await response.json();
+
+            // Pour le moment, on simule une erreur car il n'y a pas de backend.
+            throw new Error("Backend requis pour récupérer l'activité GitHub.");
+
+        } catch (error) {
+            console.error("Erreur lors du chargement de l'activité GitHub:", error);
+            activityFeedElement.innerHTML = `<div class="text-center p-8 text-red-500">Impossible de charger l'activité GitHub. Un backend est nécessaire pour récupérer les données de manière sécurisée.</div>`;
+        }
+    }
+
+    // Charger l'activité GitHub une fois la page chargée
+    document.addEventListener('DOMContentLoaded', loadGitHubActivity);
+
+    // --- LOGIQUE SPECIFIQUE POUR LE FORMULAIRE DE CONTACT ---
+    document.getElementById('contactForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const btn = this.querySelector('button[type="submit"]');
+      const originalText = btn.innerText;
+      btn.innerText = 'Envoi en cours...';
+      btn.disabled = true;
+      btn.classList.add('opacity-75');
+      // Simuler l'envoi
+      setTimeout(() => {
+        btn.innerText = 'Message Envoyé !';
+        btn.classList.remove('from-primary', 'to-indigo-600');
+        btn.classList.add('bg-green-500');
+        setTimeout(() => {
+          this.reset();
+          btn.innerText = originalText;
+          btn.disabled = false;
+          btn.classList.remove('opacity-75', 'bg-green-500');
+          btn.classList.add('from-primary', 'to-indigo-600');
+        }, 3000);
+      }, 1500);
+    });
+  </script>
+</body>
+</html>
